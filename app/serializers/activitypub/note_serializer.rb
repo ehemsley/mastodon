@@ -2,7 +2,7 @@
 
 class ActivityPub::NoteSerializer < ActivityPub::Serializer
   context_extensions :atom_uri, :conversation, :sensitive,
-                     :hashtag, :emoji, :focal_point
+                     :hashtag, :emoji, :focal_point, :blurhash
 
   attributes :id, :type, :summary,
              :in_reply_to, :published, :url,
@@ -25,6 +25,7 @@ class ActivityPub::NoteSerializer < ActivityPub::Serializer
   attribute :closed, if: :poll_and_expired?
 
   def id
+    raise Mastodon::NotPermittedError, 'Local-only statuses should not be serialized' if object.local_only?
     ActivityPub::TagManager.instance.uri_for(object)
   end
 
@@ -153,7 +154,7 @@ class ActivityPub::NoteSerializer < ActivityPub::Serializer
   class MediaAttachmentSerializer < ActivityPub::Serializer
     include RoutingHelper
 
-    attributes :type, :media_type, :url, :name
+    attributes :type, :media_type, :url, :name, :blurhash
     attribute :focal_point, if: :focal_point?
 
     def type

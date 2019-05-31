@@ -196,11 +196,11 @@
   border-color: $ui-base-color;
 }
 
-.composer--textarea--suggestions {
+.autosuggest-textarea__suggestions {
   background: lighten($ui-base-color, 10%)
 }
 
-.composer--textarea--suggestions--item {
+.autosuggest-textarea__suggestions__item {
   &:hover,
   &:focus,
   &:active,
@@ -320,7 +320,7 @@
 .button.logo-button {
   color: $white;
 
-  svg path:first-child {
+  svg {
     fill: $white;
   }
 }
