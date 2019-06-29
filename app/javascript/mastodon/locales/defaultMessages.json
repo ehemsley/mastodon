@@ -1051,7 +1051,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Add media (JPEG, PNG, GIF, WebM, MP4, MOV)",
+        "defaultMessage": "Add media ({formats})",
         "id": "upload_button.label"
       }
     ],
@@ -2350,6 +2350,10 @@
       {
         "defaultMessage": "Follows and followers",
         "id": "navigation_bar.follows_and_followers"
+      },
+      {
+        "defaultMessage": "Profile directory",
+        "id": "navigation_bar.profile_directory"
       }
     ],
     "path": "app/javascript/mastodon/features/ui/components/navigation_panel.json"
