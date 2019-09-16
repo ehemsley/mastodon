@@ -7,14 +7,14 @@
 #  name                :string           default(""), not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
-#  score               :integer
 #  usable              :boolean
 #  trendable           :boolean
 #  listable            :boolean
 #  reviewed_at         :datetime
 #  requested_review_at :datetime
 #  last_status_at      :datetime
-#  last_trend_at       :datetime
+#  max_score           :float
+#  max_score_at        :datetime
 #
 
 class Tag < ApplicationRecord
@@ -25,8 +25,9 @@ class Tag < ApplicationRecord
   has_many :featured_tags, dependent: :destroy, inverse_of: :tag
   has_one :account_tag_stat, dependent: :destroy
 
-  HASHTAG_NAME_RE = '([[:word:]_][[:word:]_·]*[[:alpha:]_·][[:word:]_·]*[[:word:]_])|([[:word:]_]*[[:alpha:]][[:word:]_]*)'
-  HASHTAG_RE = /(?:^|[^\/\)\w])#(#{HASHTAG_NAME_RE})/i
+  HASHTAG_SEPARATORS = "_\u00B7\u200c"
+  HASHTAG_NAME_RE    = "([[:word:]_][[:word:]#{HASHTAG_SEPARATORS}]*[[:alpha:]#{HASHTAG_SEPARATORS}][[:word:]#{HASHTAG_SEPARATORS}]*[[:word:]_])|([[:word:]_]*[[:alpha:]][[:word:]_]*)"
+  HASHTAG_RE         = /(?:^|[^\/\)\w])#(#{HASHTAG_NAME_RE})/i
 
   validates :name, presence: true, format: { with: /\A(#{HASHTAG_NAME_RE})\z/i }
   validate :validate_name_change, if: -> { !new_record? && name_changed? }
