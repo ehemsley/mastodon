@@ -1,5 +1,6 @@
 import loadPolyfills from 'flavours/glitch/util/load_polyfills';
 import ready from 'flavours/glitch/util/ready';
+import loadKeyboardExtensions from 'flavours/glitch/util/load_keyboard_extensions';
 
 function main() {
   const IntlMessageFormat = require('intl-messageformat').default;
@@ -94,14 +95,6 @@ function main() {
       new Rellax('.parallax', { speed: -1 });
     }
 
-    if (document.body.classList.contains('with-modals')) {
-      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-      const scrollbarWidthStyle = document.createElement('style');
-      scrollbarWidthStyle.id = 'scrollbar-width';
-      document.head.appendChild(scrollbarWidthStyle);
-      scrollbarWidthStyle.sheet.insertRule(`body.with-modals--active { margin-right: ${scrollbarWidth}px; }`, 0);
-    }
-
     delegate(document, '.custom-emoji', 'mouseover', getEmojiAnimationHandler('data-original'));
     delegate(document, '.custom-emoji', 'mouseout', getEmojiAnimationHandler('data-static'));
 
@@ -126,6 +119,9 @@ function main() {
   });
 }
 
-loadPolyfills().then(main).catch(error => {
-  console.error(error);
-});
+loadPolyfills()
+  .then(main)
+  .then(loadKeyboardExtensions)
+  .catch(error => {
+    console.error(error);
+  });

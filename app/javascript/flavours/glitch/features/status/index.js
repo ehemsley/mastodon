@@ -155,6 +155,7 @@ class Status extends ImmutablePureComponent {
     descendantsIds: ImmutablePropTypes.list,
     intl: PropTypes.object.isRequired,
     askReplyConfirmation: PropTypes.bool,
+    multiColumn: PropTypes.bool,
     domain: PropTypes.string.isRequired,
   };
 
@@ -317,6 +318,22 @@ class Status extends ImmutablePureComponent {
 
   handleOpenVideo = (media, time) => {
     this.props.dispatch(openModal('VIDEO', { media, time }));
+  }
+
+  handleHotkeyOpenMedia = e => {
+    const { status } = this.props;
+
+    e.preventDefault();
+
+    if (status.get('media_attachments').size > 0) {
+      if (status.getIn(['media_attachments', 0, 'type']) === 'audio') {
+        // TODO: toggle play/paused?
+      } else if (status.getIn(['media_attachments', 0, 'type']) === 'video') {
+        this.handleOpenVideo(status.getIn(['media_attachments', 0]), 0);
+      } else {
+        this.handleOpenMedia(status.get('media_attachments'), 0);
+      }
+    }
   }
 
   handleMuteClick = (account) => {
@@ -497,13 +514,13 @@ class Status extends ImmutablePureComponent {
   render () {
     let ancestors, descendants;
     const { setExpansion } = this;
-    const { status, settings, ancestorsIds, descendantsIds, intl, domain } = this.props;
+    const { status, settings, ancestorsIds, descendantsIds, intl, domain, multiColumn } = this.props;
     const { fullscreen, isExpanded } = this.state;
 
     if (status === null) {
       return (
         <Column>
-          <ColumnBackButton />
+          <ColumnBackButton multiColumn={multiColumn} />
           <MissingIndicator />
         </Column>
       );
@@ -528,15 +545,17 @@ class Status extends ImmutablePureComponent {
       openProfile: this.handleHotkeyOpenProfile,
       toggleSpoiler: this.handleExpandedToggle,
       toggleSensitive: this.handleHotkeyToggleSensitive,
+      openMedia: this.handleHotkeyOpenMedia,
     };
 
     return (
-      <Column ref={this.setColumnRef} label={intl.formatMessage(messages.detailedStatus)}>
+      <Column bindToDocument={!multiColumn} ref={this.setColumnRef} label={intl.formatMessage(messages.detailedStatus)}>
         <ColumnHeader
           icon='comment'
           title={intl.formatMessage(messages.tootHeading)}
           onClick={this.handleHeaderClick}
           showBackButton
+          multiColumn={multiColumn}
           extraButton={(
             <button className='column-header__button' title={intl.formatMessage(!isExpanded ? messages.revealAll : messages.hideAll)} aria-label={intl.formatMessage(!isExpanded ? messages.revealAll : messages.hideAll)} onClick={this.handleToggleAll} aria-pressed={!isExpanded ? 'false' : 'true'}><Icon id={status.get('hidden') ? 'eye-slash' : 'eye'} /></button>
           )}
