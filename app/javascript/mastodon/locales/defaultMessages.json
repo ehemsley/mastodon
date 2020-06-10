@@ -217,7 +217,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Hide media",
+        "defaultMessage": "Hide {number, plural, one {image} other {images}}",
         "id": "media_gallery.toggle_visible"
       },
       {
@@ -472,6 +472,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Show thread",
+        "id": "status.show_thread"
+      },
+      {
         "defaultMessage": "Read more",
         "id": "status.read_more"
       },
@@ -499,10 +503,6 @@
       {
         "defaultMessage": "{name} boosted",
         "id": "status.reblogged_by"
-      },
-      {
-        "defaultMessage": "Show thread",
-        "id": "status.show_thread"
       }
     ],
     "path": "app/javascript/mastodon/components/status.json"
@@ -523,7 +523,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Hide entire domain",
+        "defaultMessage": "Block entire domain",
         "id": "confirmations.domain_block.confirm"
       },
       {
@@ -737,7 +737,7 @@
         "id": "navigation_bar.blocks"
       },
       {
-        "defaultMessage": "Hidden domains",
+        "defaultMessage": "Blocked domains",
         "id": "navigation_bar.domain_blocks"
       },
       {
@@ -773,7 +773,7 @@
         "id": "account.muted"
       },
       {
-        "defaultMessage": "Domain hidden",
+        "defaultMessage": "Domain blocked",
         "id": "account.domain_blocked"
       },
       {
@@ -917,6 +917,10 @@
       {
         "defaultMessage": "Logout",
         "id": "navigation_bar.logout"
+      },
+      {
+        "defaultMessage": "Bookmarks",
+        "id": "navigation_bar.bookmarks"
       }
     ],
     "path": "app/javascript/mastodon/features/compose/components/action_bar.json"
@@ -1466,7 +1470,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Hidden domains",
+        "defaultMessage": "Blocked domains",
         "id": "column.domain_blocks"
       },
       {
@@ -1474,7 +1478,7 @@
         "id": "account.unblock_domain"
       },
       {
-        "defaultMessage": "There are no hidden domains yet.",
+        "defaultMessage": "There are no blocked domains yet.",
         "id": "empty_column.domain_blocks"
       }
     ],
@@ -1528,6 +1532,10 @@
       {
         "defaultMessage": "You don't have any follow requests yet. When you receive one, it will show up here.",
         "id": "empty_column.follow_requests"
+      },
+      {
+        "defaultMessage": "Even though your account is not locked, the {domain} staff thought you might want to review follow requests from these accounts manually.",
+        "id": "follow_requests.unlocked_explanation"
       }
     ],
     "path": "app/javascript/mastodon/features/follow_requests/index.json"
@@ -1698,6 +1706,10 @@
       {
         "defaultMessage": "Include additional tags in this column",
         "id": "hashtag.column_settings.tag_toggle"
+      },
+      {
+        "defaultMessage": "Local only",
+        "id": "community.column_settings.local_only"
       }
     ],
     "path": "app/javascript/mastodon/features/hashtag_timeline/components/column_settings.json"
@@ -2258,6 +2270,19 @@
       }
     ],
     "path": "app/javascript/mastodon/features/pinned_statuses/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Media only",
+        "id": "community.column_settings.media_only"
+      },
+      {
+        "defaultMessage": "Remote only",
+        "id": "community.column_settings.remote_only"
+      }
+    ],
+    "path": "app/javascript/mastodon/features/public_timeline/components/column_settings.json"
   },
   {
     "descriptors": [

@@ -66,8 +66,8 @@ export default class DetailedStatus extends ImmutablePureComponent {
     e.stopPropagation();
   }
 
-  handleOpenVideo = (media, startTime) => {
-    this.props.onOpenVideo(media, startTime);
+  handleOpenVideo = (media, options) => {
+    this.props.onOpenVideo(media, options);
   }
 
   _measureHeight (heightJustChanged) {
@@ -184,7 +184,7 @@ export default class DetailedStatus extends ImmutablePureComponent {
         mediaIcon = 'picture-o';
       }
     } else if (status.get('card')) {
-      media = <Card onOpenMedia={this.props.onOpenMedia} card={status.get('card')} />;
+      media = <Card sensitive={status.get('sensitive')} onOpenMedia={this.props.onOpenMedia} card={status.get('card')} />;
       mediaIcon = 'link';
     }
 
