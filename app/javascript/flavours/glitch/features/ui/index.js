@@ -19,6 +19,7 @@ import PermaLink from 'flavours/glitch/components/permalink';
 import ColumnsAreaContainer from './containers/columns_area_container';
 import classNames from 'classnames';
 import Favico from 'favico.js';
+import PictureInPicture from 'flavours/glitch/features/picture_in_picture';
 import {
   Compose,
   Status,
@@ -359,26 +360,11 @@ class UI extends React.Component {
     const visibility = !document[this.visibilityHiddenProp];
     this.props.dispatch(notificationsSetVisibility(visibility));
     if (visibility) {
-      this.props.dispatch(submitMarkers());
+      this.props.dispatch(submitMarkers({ immediate: true }));
     }
   }
 
   componentWillMount () {
-    if (typeof document.hidden !== 'undefined') { // Opera 12.10 and Firefox 18 and later support
-      this.visibilityHiddenProp = 'hidden';
-      this.visibilityChange = 'visibilitychange';
-    } else if (typeof document.msHidden !== 'undefined') {
-      this.visibilityHiddenProp = 'msHidden';
-      this.visibilityChange = 'msvisibilitychange';
-    } else if (typeof document.webkitHidden !== 'undefined') {
-      this.visibilityHiddenProp = 'webkitHidden';
-      this.visibilityChange = 'webkitvisibilitychange';
-    }
-    if (this.visibilityChange !== undefined) {
-      document.addEventListener(this.visibilityChange, this.handleVisibilityChange, false);
-      this.handleVisibilityChange();
-    }
-
     window.addEventListener('beforeunload', this.handleBeforeUnload, false);
     document.addEventListener('dragenter', this.handleDragEnter, false);
     document.addEventListener('dragover', this.handleDragOver, false);
@@ -400,8 +386,24 @@ class UI extends React.Component {
 
   componentDidMount () {
     this.hotkeys.__mousetrap__.stopCallback = (e, element) => {
-      return ['TEXTAREA', 'SELECT', 'INPUT'].includes(element.tagName) && !e.altKey;
+      return ['TEXTAREA', 'SELECT', 'INPUT'].includes(element.tagName);
     };
+
+    if (typeof document.hidden !== 'undefined') { // Opera 12.10 and Firefox 18 and later support
+      this.visibilityHiddenProp = 'hidden';
+      this.visibilityChange = 'visibilitychange';
+    } else if (typeof document.msHidden !== 'undefined') {
+      this.visibilityHiddenProp = 'msHidden';
+      this.visibilityChange = 'msvisibilitychange';
+    } else if (typeof document.webkitHidden !== 'undefined') {
+      this.visibilityHiddenProp = 'webkitHidden';
+      this.visibilityChange = 'webkitvisibilitychange';
+    }
+
+    if (this.visibilityChange !== undefined) {
+      document.addEventListener(this.visibilityChange, this.handleVisibilityChange, false);
+      this.handleVisibilityChange();
+    }
   }
 
   componentDidUpdate (prevProps) {
@@ -613,6 +615,7 @@ class UI extends React.Component {
             {children}
           </SwitchingColumnsArea>
 
+          <PictureInPicture />
           <NotificationsContainer />
           <LoadingBarContainer className='loading-bar' />
           <ModalContainer />
